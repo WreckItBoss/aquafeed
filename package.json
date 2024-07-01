@@ -11,5 +11,8 @@
   "license": "ISC",
   "devDependencies": {
     "@types/chrome": "^0.0.268"
+  },
+  "dependencies": {
+    "chrome-types": "^0.1.290"
   }
 }
