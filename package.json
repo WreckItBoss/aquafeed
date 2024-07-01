@@ -1,12 +1,15 @@
 {
   "name": "projects",
   "version": "1.0.0",
-  "description": "",
+  "description": "Keep your pet fish alive by reading news articles! This project is a browser extension that  encourages users to read news articles in a balanced manner by taking care of your pet fish by feeding him.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chrome": "^0.0.268"
+  }
 }
