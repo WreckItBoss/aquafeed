@@ -15,18 +15,23 @@ var backButtonBounds = {
     width: 50,
     height: 50,
 };
-
+var newsButtonBounds = {
+    x: 20,
+    y: 10,
+    width: 250,
+    height: 250,
+};
 window.addEventListener('mousemove', function(event){
     mouse.x = event.x;
     mouse.y = event.y;
 });
 
-window.addEventListener('click', function(event){
-    if (event.x >= backButtonBounds.x && event.x <= backButtonBounds.x + backButtonBounds.width &&
-        event.y >= backButtonBounds.y && event.y <= backButtonBounds.y + backButtonBounds.height) {
-        loadMenu();
-    }
-});
+// window.addEventListener('click', function(event){
+//     if (event.x >= backButtonBounds.x && event.x <= backButtonBounds.x + backButtonBounds.width &&
+//         event.y >= backButtonBounds.y && event.y <= backButtonBounds.y + backButtonBounds.height) {
+//         loadMenu();
+//     }
+// });
 
 var maxRadius = 60;
 var minRadius = 30;
@@ -96,6 +101,7 @@ function animate(){
     c.clearRect(0, 0, canvas.width, canvas.height);
     c.drawImage(base_image, 0, 0, canvas.width, canvas.height);
     c.drawImage(back_button, backButtonBounds.x, backButtonBounds.y, backButtonBounds.width, backButtonBounds.height); // Draw the back button at the top left corner
+    c.drawImage(news_button, newsButtonBounds.x, newsButtonBounds.y, newsButtonBounds.width, newsButtonBounds.height);
     for (var i = 0; i < circleArray.length; i++){
         circleArray[i].update();
     }
@@ -103,7 +109,8 @@ function animate(){
 
 var back_button = new Image();
 back_button.src = 'back.png';
-
+var news_button = new Image();
+news_button.src = 'news.png';
 var base_image = new Image();
 base_image.src = 'fishtankimage.png';
 base_image.onload = function(){
@@ -127,6 +134,22 @@ function loadMenu() {
     script.src = 'main.js';
     document.body.appendChild(script);
 }
+function loadNews() {
+    // Clear the current animation loop
+    cancelAnimationFrame(animationFrameId);
+
+    // Clear the canvas
+    c.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Remove all event listeners (optional but recommended)
+    window.removeEventListener('mousemove', handleMouseMove);
+    window.removeEventListener('click', handleClick);
+
+    // Load the main.js script
+    var script = document.createElement('script');
+    script.src = 'news.js';
+    document.body.appendChild(script);
+}
 
 function handleMouseMove(event) {
     mouse.x = event.x;
@@ -137,6 +160,10 @@ function handleClick(event) {
     if (event.x >= backButtonBounds.x && event.x <= backButtonBounds.x + backButtonBounds.width &&
         event.y >= backButtonBounds.y && event.y <= backButtonBounds.y + backButtonBounds.height) {
         loadMenu();
+    }
+    if (event.x >= newsButtonBounds.x && event.x <= newsButtonBounds.x + newsButtonBounds.width &&
+        event.y >= newsButtonBounds.y && event.y <= newsButtonBounds.y + newsButtonBounds.height) {
+        loaNews();
     }
 }
 
