@@ -27,38 +27,38 @@ var c = canvas.getContext('2d');
 //     c.strokeStyle = 'red';
 //     c.stroke();
 // }
-function Circle(x, y){
+function Circle(x, y, dx, dy, radius){
     this.x = x;
     this.y = y;
-
+    this.dx = dx;
+    this.dy = dy;
+    this.radius = radius;
     this.draw = function(){
         
         c.beginPath();
-        c.arc(x, y, radius,0, Math.PI*2,false);
+        c.arc(this.x, this.y, this.radius,0, Math.PI*2,false);
         c.strokeStyle = 'red';
         c.stroke();
     }
+    this.update = function(){
+        if (this.x+ this.radius> canvas.width || this.x -this.radius <0){
+            this.dx= -this.dx;
+        }
+        if(this.y+this.radius > canvas.height || this.y-this.radius<0){
+            this.dy = -this.dy;
+        }
+        this.x +=this.dx;
+        this.y+=this.dy;
+        this.draw();
+    }
 }
-var circle = new Circle(200, 200);
+var circle = new Circle(200, 200,3, 3,30 );
 
-
-var x = Math.random() * canvas.width;
-var y = Math.random()*canvas.height;
-var dx = (Math.random() - 0.5)*5;
-var dy = (Math.random() - 0.5)*5;
-var radius = 30
 function animate(){
     requestAnimationFrame(animate);
     c.clearRect(0,0, canvas.width, canvas.height);
-    circle.draw();
-    if (x+ radius> canvas.width || x -radius <0){
-        dx= -dx;
-    }
-    if(y+radius > canvas.height || y-radius<0){
-        dy = -dy;
-    }
-    x +=dx;
-    y+=dy;
+    circle.update();
+    
 }
 
 animate();
