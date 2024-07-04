@@ -4,18 +4,56 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Canvas Resize</title>
-  <style type = "text/css">
+  <style type="text/css">
     canvas {
       border: 1px solid black;
       background: white;
       height: 500px;
       width: 500px;
     }
+    #news-container {
+      display: none; /* Initially hidden */
+      background-color: white;
+      padding: 20px;
+    }
+    .news-item {
+      margin-bottom: 10px;
+    }
+    .news-button {
+      display: block;
+      margin: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      width: 500px;  /* Set the width */
+      height: 100px; /* Set the height */
+    }
+    #back-to-canvas {
+      display: none; /* Initially hidden */
+      margin: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+    #full-article-container {
+      display: none; /* Initially hidden */
+      background-color: white;
+      padding: 20px;
+    }
+    #back-to-news-selection {
+      display: none; /* Initially hidden */
+      margin: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      width: 500px;  /* Set the width */
+      height: 100px; /* Set the height */
+    }
   </style>
 </head>
 <body>
-  <canvas id ="tank">  </canvas>>
-  <!-- <canvas id ="menu">  </canvas>> -->
-  <script src = "main.js"> </script>
+  <canvas id="tank"></canvas>
+  <div id="news-container"></div>
+  <button id="back-to-canvas">Back to Canvas</button>
+  <div id="full-article-container"></div>
+  <button id="back-to-news-selection">Back to News</button>
+  <script src="main.js"></script>
 </body>
 </html>

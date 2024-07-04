@@ -26,15 +26,8 @@ window.addEventListener('mousemove', function(event){
     mouse.y = event.y;
 });
 
-// window.addEventListener('click', function(event){
-//     if (event.x >= backButtonBounds.x && event.x <= backButtonBounds.x + backButtonBounds.width &&
-//         event.y >= backButtonBounds.y && event.y <= backButtonBounds.y + backButtonBounds.height) {
-//         loadMenu();
-//     }
-// });
-
-var maxRadius = 60;
-var minRadius = 30;
+var maxRadius = 70;
+var minRadius = 40;
 var colorArray = [
     '#ffaa33',
     '#99ffaaa',
@@ -43,16 +36,19 @@ var colorArray = [
     '#ff1100',
 ];
 
-function Circle(x, y, dx, dy, radius, pic){
+function Circle(x, y, dx, dy, radius, picSrc) {
     this.x = x;
     this.y = y;
-    this.dx = dx;
-    this.dy = dy;
-    this.pic = pic;
+    this.dx = dx; // Use the provided dx
+    this.dy = dy; // Use the provided dy
+    this.pic = new Image();
+    this.pic.src = picSrc;
+    this.picOriginal = picSrc; // Store the original image source
+    this.picMaxRadius = 'Fish3-1.png'; // Image for max radius
     this.flipped = false;
     this.radius = minRadius;
     this.color = colorArray[Math.floor(Math.random() * colorArray.length)];
-    this.draw = function(){
+    this.draw = function() {
         c.drawImage(this.pic, this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
@@ -60,22 +56,26 @@ function Circle(x, y, dx, dy, radius, pic){
         c.strokeStyle = 'transparent';
         c.stroke();
     }
-    this.update = function(){
+    this.update = function() {
         if (this.x + this.radius > canvas.width || this.x - this.radius < 0){
             this.dx = -this.dx;
+            saveFishes();
         }
         if (this.y + this.radius > canvas.height || this.y - this.radius < 0){
             this.dy = -this.dy;
+            saveFishes();
         }
         this.x += this.dx;
         this.y += this.dy;
 
-        if (Math.abs(mouse.x - this.x) < 50 && Math.abs(mouse.y - this.y) < 50){
+        if (Math.abs(mouse.x - this.x) < 30 && Math.abs(mouse.y - this.y) < 30){
             if (this.radius < maxRadius){
-                this.radius += 1;
+                this.radius = maxRadius;
+                this.pic.src = this.picMaxRadius;
             }
         } else if (this.radius > minRadius){
-            this.radius -= 1;
+            this.radius =minRadius;
+            this.pic.src = this.picOriginal;
         }
 
         this.draw();
@@ -83,16 +83,30 @@ function Circle(x, y, dx, dy, radius, pic){
 }
 
 var circleArray = [];
-for (var i = 0; i < 1; i++){
-    var pic = new Image();
-    pic.src = 'Fish1.png';
-    var radius = 30;
-    var x = Math.random() * (canvas.width - radius * 2) + radius;
-    var y = Math.random() * (canvas.height - radius * 2) + radius;
-    var dx = (Math.random() - 0.5);
-    var dy = (Math.random() - 0.5);
-    circleArray.push(new Circle(x, y, dx, dy, radius, pic));
-} 
+function loadFishes() {
+    circleArray = [];
+    var savedFishes = localStorage.getItem('fishes');
+    if (savedFishes) {
+        JSON.parse(savedFishes).forEach(fish => {
+            var dx = (Math.random() - 0.5) * 3; // Randomize dx
+            var dy = (Math.random() - 0.5) * 4; // Randomize dy
+            var newFish = new Circle(fish.x, fish.y, fish.dx, fish.dy, fish.radius, fish.pic);
+            circleArray.push(newFish);
+        });
+    }
+    saveFishes(); // Save the randomized speeds
+}
+
+function saveFishes() {
+    localStorage.setItem('fishes', JSON.stringify(circleArray.map(fish => ({
+        x: fish.x,
+        y: fish.y,
+        dx: fish.dx,
+        dy: fish.dy,
+        radius: fish.radius,
+        pic: fish.pic.src
+    }))));
+}
 
 var animationFrameId;
 
@@ -115,40 +129,58 @@ var base_image = new Image();
 base_image.src = 'fishtankimage.png';
 base_image.onload = function(){
     c.drawImage(base_image, 0, 0, canvas.width, canvas.height);
-    animate();
+    if (!animationFrameId) {
+        animate();
+    }
 };
 
+
+loadFishes();
+
 function loadMenu() {
-    // Clear the current animation loop
-    cancelAnimationFrame(animationFrameId);
+    continueAnimation = false;
+    new Promise(resolve => {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null; // Reset animationFrameId
+        setTimeout(resolve, 1000 / 60); // Wait for the next frame (~16.7ms)
+    }).then(() => {
+        // Clear the canvas
+        c.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Clear the canvas
-    c.clearRect(0, 0, canvas.width, canvas.height);
+        // Remove all event listeners (optional but recommended)
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('click', handleClick);
 
-    // Remove all event listeners (optional but recommended)
-    window.removeEventListener('mousemove', handleMouseMove);
-    window.removeEventListener('click', handleClick);
-
-    // Load the main.js script
-    var script = document.createElement('script');
-    script.src = 'main.js';
-    document.body.appendChild(script);
+        // Load the main.js script
+        var script = document.createElement('script');
+        script.src = 'main.js';
+        document.body.appendChild(script);
+    });
 }
+
 function loadNews() {
-    // Clear the current animation loop
-    cancelAnimationFrame(animationFrameId);
+    continueAnimation = false;
+    new Promise(resolve => {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null; // Reset animationFrameId
+        setTimeout(resolve, 1000 / 60); // Wait for the next frame (~16.7ms)
+    }).then(() => {
+        // Clear the canvas
+        c.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Clear the canvas
-    c.clearRect(0, 0, canvas.width, canvas.height);
+        // Remove all event listeners (optional but recommended)
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('click', handleClick);
 
-    // Remove all event listeners (optional but recommended)
-    window.removeEventListener('mousemove', handleMouseMove);
-    window.removeEventListener('click', handleClick);
+        // Load the news.js script
+        var script = document.createElement('script');
+        script.src = 'news.js';
+        document.body.appendChild(script);
 
-    // Load the main.js script
-    var script = document.createElement('script');
-    script.src = 'news.js';
-    document.body.appendChild(script);
+        document.getElementById('news-container').style.display = 'block'; // Show the news container
+        document.getElementById('back-to-canvas').style.display = 'block'; // Show the back button
+        document.getElementById('tank').style.display = 'none'; // Hide the canvas
+    });
 }
 
 function handleMouseMove(event) {
@@ -161,9 +193,9 @@ function handleClick(event) {
         event.y >= backButtonBounds.y && event.y <= backButtonBounds.y + backButtonBounds.height) {
         loadMenu();
     }
-    if (event.x >= newsButtonBounds.x && event.x <= newsButtonBounds.x + newsButtonBounds.width &&
+    else if (event.x >= newsButtonBounds.x && event.x <= newsButtonBounds.x + newsButtonBounds.width &&
         event.y >= newsButtonBounds.y && event.y <= newsButtonBounds.y + newsButtonBounds.height) {
-        loaNews();
+        loadNews();
     }
 }
 
