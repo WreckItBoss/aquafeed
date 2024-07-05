@@ -6,12 +6,15 @@ var fishImagesEpic = { 'Fish6.png': 'Fish6_1.png', 'Fish7.png': 'Fish7_1.png' };
 var fishImagesLegendary = { 'Fish8.png': 'Fish8_1.png' };
 
 function displayFullArticle(newsItem) {
+    
     var fullArticleContainer = document.getElementById('full-article-container');
     fullArticleContainer.innerHTML = ''; // Clear previous content
 
     var titleElement = document.createElement('h1');
     titleElement.innerText = newsItem.title;
     fullArticleContainer.appendChild(titleElement);
+
+    saveNewsTypeAndValue(newsItem);  // Save the news type and value
 
     var sourceElement = document.createElement('p');
     sourceElement.innerText = "Source: " + newsItem.source;
@@ -59,9 +62,20 @@ backToNewsButton.addEventListener('click', () => {
     document.getElementById('back-to-canvas').style.display = 'block'; // Show the back-to-canvas button
     if (!flag) {
         addFishToLocalStorage();
+
         flag = true;
     }
 });
+function saveNewsTypeAndValue(newsItem) {
+    let newsData = JSON.parse(localStorage.getItem('newsData')) || {};
+    
+    if (!newsData[newsItem.type]) {
+        newsData[newsItem.type] = 0;
+    }
+    
+    newsData[newsItem.type] += newsItem.value;
+    localStorage.setItem('newsData', JSON.stringify(newsData));
+}
 
 function addFishToLocalStorage() {
     console.log("IM RUNNIIIING")
@@ -89,4 +103,6 @@ function addFishToLocalStorage() {
     var fishes = JSON.parse(localStorage.getItem('fishes')) || [];
     fishes.push(fish);
     localStorage.setItem('fishes', JSON.stringify(fishes));
+  
 }
+

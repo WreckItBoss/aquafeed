@@ -343,6 +343,8 @@ function saveFishes() {
     }))));
 }
 
+
+
 var animationFrameId;
 
 function animate(){
@@ -445,12 +447,28 @@ function handleClick(event) {
 
 var genres = ['Politics', 'Economy', 'Health', 'Science', 'Sports'];
 var genreValues = [3, 4, -2, 5, 1]; // Example values for the sliders
+function updateSliders() {
+    let newsData = JSON.parse(localStorage.getItem('newsData')) || {};
+    
+    document.getElementById('slider-business').value = newsData['business'] || 0;
+    document.getElementById('slider-sports').value = newsData['sports'] || 0;
+    document.getElementById('slider-technology').value = newsData['technology'] || 0;
+    document.getElementById('slider-science').value = newsData['science'] || 0;
+    document.getElementById('slider-health').value = newsData['health'] || 0;
 
+    // Update slider values visually
+    document.getElementById('business-value').innerText = newsData['business'] || 0;
+    document.getElementById('sports-value').innerText = newsData['sports'] || 0;
+    document.getElementById('technology-value').innerText = newsData['technology'] || 0;
+    document.getElementById('science-value').innerText = newsData['science'] || 0;
+    document.getElementById('health-value').innerText = newsData['health'] || 0;
+}
 function showSliders() {
     var sliderContainer = document.getElementById('slider-container');
     sliderContainer.innerHTML = ''; // Clear previous content
 
-    genres.forEach((genre, index) => {
+    var genres = ['Business', 'Sports', 'Technology', 'Science', 'Health'];
+    genres.forEach(genre => {
         var sliderLabelContainer = document.createElement('div');
         sliderLabelContainer.className = 'slider-label';
 
@@ -458,15 +476,15 @@ function showSliders() {
         sliderLabel.innerText = genre;
 
         var sliderValue = document.createElement('span');
-        sliderValue.innerText = genreValues[index];
+        sliderValue.id = genre.toLowerCase() + '-value';
 
         var slider = document.createElement('input');
         slider.type = 'range';
-        slider.min = -10;
-        slider.max = 10;
-        slider.value = genreValues[index];
+        slider.min = -100;
+        slider.max = 100;
         slider.className = 'slider';
         slider.disabled = true;
+        slider.id = 'slider-' + genre.toLowerCase();
 
         sliderLabelContainer.appendChild(sliderLabel);
         sliderLabelContainer.appendChild(sliderValue);
@@ -476,7 +494,9 @@ function showSliders() {
     });
 
     sliderContainer.style.display = 'block';
+    updateSliders();  // Update the sliders with stored values
 }
+
 
 function resumeAnimation() {
     darkOverlay.style.display = 'none'; // Hide the dark overlay
