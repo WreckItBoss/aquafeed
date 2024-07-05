@@ -445,29 +445,26 @@ function handleClick(event) {
     }
 }
 
-var genres = ['Politics', 'Economy', 'Health', 'Science', 'Sports'];
-var genreValues = [3, 4, -2, 5, 1]; // Example values for the sliders
+
 function updateSliders() {
     let newsData = JSON.parse(localStorage.getItem('newsData')) || {};
     
     document.getElementById('slider-business').value = newsData['business'] || 0;
-    document.getElementById('slider-sports').value = newsData['sports'] || 0;
     document.getElementById('slider-technology').value = newsData['technology'] || 0;
-    document.getElementById('slider-science').value = newsData['science'] || 0;
+    document.getElementById('slider-science').value = newsData['general'] || 0;
     document.getElementById('slider-health').value = newsData['health'] || 0;
 
     // Update slider values visually
     document.getElementById('business-value').innerText = newsData['business'] || 0;
-    document.getElementById('sports-value').innerText = newsData['sports'] || 0;
     document.getElementById('technology-value').innerText = newsData['technology'] || 0;
-    document.getElementById('science-value').innerText = newsData['science'] || 0;
+    document.getElementById('science-value').innerText = newsData['general'] || 0;
     document.getElementById('health-value').innerText = newsData['health'] || 0;
 }
 function showSliders() {
     var sliderContainer = document.getElementById('slider-container');
     sliderContainer.innerHTML = ''; // Clear previous content
 
-    var genres = ['Business', 'Sports', 'Technology', 'Science', 'Health'];
+    var genres = ['Business', 'Technology', 'General', 'Health'];
     genres.forEach(genre => {
         var sliderLabelContainer = document.createElement('div');
         sliderLabelContainer.className = 'slider-label';
