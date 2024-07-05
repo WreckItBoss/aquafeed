@@ -14,7 +14,7 @@ var startButtonBounds = {
 
 // Function to draw the main menu
 function drawMainMenu() {
-    console.log("Hello")
+    // console.log("Hello")
     c.clearRect(0, 0, canvas.width, canvas.height);
     c.fillStyle = "lightblue";
     c.fillRect(0, 0, canvas.width, canvas.height);

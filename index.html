@@ -1,3 +1,5 @@
+<!-- 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,6 +48,54 @@
       width: 500px;  /* Set the width */
       height: 100px; /* Set the height */
     }
+    #dark-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      z-index: 10;
+      color: white;
+      text-align: center;
+      padding-top: 10%;
+    }
+    #slider-container {
+      width: 300px;
+      margin: 20px auto;
+    }
+    .slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 15px;
+      border-radius: 5px;
+      background: #d3d3d3;
+      outline: none;
+      opacity: 0.7;
+      transition: opacity .2s;
+      margin: 10px 0;
+    }
+    .slider:hover {
+      opacity: 1;
+    }
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #4CAF50;
+      cursor: default;
+    }
+    .slider::-moz-range-thumb {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #4CAF50;
+      cursor: default;
+    }
   </style>
 </head>
 <body>
@@ -54,6 +104,134 @@
   <button id="back-to-canvas">Back to Canvas</button>
   <div id="full-article-container"></div>
   <button id="back-to-news-selection">Back to News</button>
+  <div id="dark-overlay">
+    <h1>Options</h1>
+    <div id="slider-container"></div>
+    <button id="resume_button">Resume</button>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canvas Resize</title>
+  <style type="text/css">
+    canvas {
+      border: 1px solid black;
+      background: white;
+      height: 500px;
+      width: 500px;
+    }
+    #news-container {
+      display: none; /* Initially hidden */
+      background-color: white;
+      padding: 20px;
+    }
+    .news-item {
+      margin-bottom: 10px;
+    }
+    .news-button {
+      display: block;
+      margin: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      width: 500px;  /* Set the width */
+      height: 100px; /* Set the height */
+    }
+    #back-to-canvas {
+      display: none; /* Initially hidden */
+      margin: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+    #full-article-container {
+      display: none; /* Initially hidden */
+      background-color: white;
+      padding: 20px;
+    }
+    #back-to-news-selection {
+      display: none; /* Initially hidden */
+      margin: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      width: 500px;  /* Set the width */
+      height: 100px; /* Set the height */
+    }
+    #dark-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      z-index: 10;
+      color: white;
+      text-align: center;
+      padding-top: 20%;
+    }
+    #slider-container {
+      display: none; /* Hidden by default */
+      width: 300px;
+      margin: 20px auto;
+      text-align: left;
+    }
+    .slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 15px;
+      border-radius: 5px;
+      background: #d3d3d3;
+      outline: none;
+      opacity: 0.7;
+      transition: opacity .2s;
+    }
+    .slider:hover {
+      opacity: 1;
+    }
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #4CAF50;
+      cursor: default;
+    }
+    .slider::-moz-range-thumb {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #4CAF50;
+      cursor: default;
+    }
+    .slider-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="tank"></canvas>
+  <div id="news-container"></div>
+  <button id="back-to-canvas">Back to Canvas</button>
+  <div id="full-article-container"></div>
+  <button id="back-to-news-selection">Back to News</button>
+  <div id="dark-overlay">
+    <h1>Options</h1>
+    <div id="slider-container">
+      <!-- Sliders will be dynamically added here -->
+    </div>
+    <button id="resume_button">Resume</button>
+  </div>
   <script src="main.js"></script>
 </body>
 </html>

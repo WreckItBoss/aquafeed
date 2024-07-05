@@ -20,16 +20,28 @@ function loadNewsFromFile() {
 // Function to display news buttons
 function displayNewsButtons(headlines) {
   newsContainer.innerHTML = ''; // Clear previous news
-  headlines.forEach(newsItem => {
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+  shuffleArray(headlines);
+
+  // Select the first 10 elements from the shuffled array
+  const selectedHeadlines = headlines.slice(0, 10);
+
+  selectedHeadlines.forEach(newsItem => {
     var newsButton = document.createElement('button');
     newsButton.className = 'news-button';
     newsButton.innerText = newsItem.title;
     newsButton.onclick = function() {
-        // Add a delay of 0.2 seconds before loading the full article
-        setTimeout(() => {
-          loadFullArticle(newsItem); // Load the full article on click
-        }, 100); // 200 milliseconds = 0.2 seconds
-      };
+      // Add a delay of 0.2 seconds before loading the full article
+      setTimeout(() => {
+        loadFullArticle(newsItem); // Load the full article on click
+      }, 200); // 200 milliseconds = 0.2 seconds
+    };
     newsContainer.appendChild(newsButton);
   });
   newsContainer.style.display = 'block'; // Show the news container
